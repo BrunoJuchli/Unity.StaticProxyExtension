@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/78rnapve4bny7js1)](https://ci.appveyor.com/project/BrunoJuchli/unity-staticproxyextension)
+
 Unity.StaticProxyExtension
 ==========================
 
