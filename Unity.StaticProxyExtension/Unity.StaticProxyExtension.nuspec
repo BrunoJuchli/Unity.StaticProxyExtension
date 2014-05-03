@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package >
+  <metadata minClientVersion="2.8">
+    <id>Unity.StaticProxy</id>
+    <!-- <version>$version$</version> currently does not seem to work with PCL assemblies... -->
+    <version>0.1.0-beta1</version>
+    <title>Unity Static Proxy Extension</title>
+    <authors>Bruno Juchli</authors>
+    <owners>Bruno Juchli</owners>
+    <developmentDependency>false</developmentDependency>
+    <!-- <iconUrl>https://github.com/BrunoJuchli/ninject.extensions.staticproxy/tree/master/Icons/package_icon.png</iconUrl> no icon yet -->
+    <projectUrl>https://github.com/BrunoJuchli/Unity.StaticProxyExtension</projectUrl>
+	<description>Unity extension for using StaticProxy.Fody with unity. This enables proxying on platforms which don't support Dynamic Proxy (like Windows RT, Apple IPhone,...)</description>
+    <copyright>Copyright Bruno Juchli 2014</copyright>
+    <tags>Proxy Interception ILWeaving Fody AOP</tags>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <dependencies>
+      <dependency id="Unity" version="3.5"/>
+      <dependency id="StaticProxy.Interceptor" version="0.2.0"/>
+      <dependency id="StaticProxy.Fody" version ="0.2.0"/>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\$configuration$\$id$.pdb" target="lib\portable-net45+wp80+win8\" /> <!-- todo add +MonoAndroid10+MonoTouch10 -->
+  </files>
+</package>
