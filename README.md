@@ -27,10 +27,9 @@ this is similar to castle dynamic proxy's "class proxy" and "interface proxy wit
  - Write some interceptors (`FooInterceptor : IDynamicInterceptor`) - this is almost idential to Castle Dynamic Proxy Interceptors.
  - configure the unity container:
 
-
-    var container = new UnityContainer();
-    container.AddNewExtension<StaticProxyExtension>();
-    container.RegisterType<IFoo, Foo>(new Intercept<LoggingInterceptor>(), new Intercept(new MyInterceptor());
+         var container = new UnityContainer();
+         container.AddNewExtension<StaticProxyExtension>();
+         container.RegisterType<IFoo, Foo>(new Intercept<LoggingInterceptor>(), new Intercept(new MyInterceptor());
                 
 
 ### Configuring Interface Proxy Interception
@@ -39,10 +38,9 @@ this is similar to castle dynamic proxy's "interface proxy without target" proxy
  - put a `[StaticProxy]` attribute on the interface
  - Write some interceptors (`FooInterceptor : IDynamicInterceptor`) - this is almost idential to Castle Dynamic Proxy Interceptors.
  - configure the unity container:
-
-
-    var container = new UnityContainer();
-    container.AddNewExtension<StaticProxyExtension>();
-    container.RegisterType<IFoo, Foo>(new Intercept<LoggingInterceptor>(), new Intercept(new MyInterceptor());
+ 
+        var container = new UnityContainer();
+        container.AddNewExtension<StaticProxyExtension>();
+        container.RegisterInterfaceProxy<IFoo>(new Intercept<LoggingInterceptor>(), new Intercept(new MyInterceptor());
 
                 
