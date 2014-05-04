@@ -2,9 +2,13 @@
 {
     using System.Reflection;
 
+    using FluentAssertions;
+
     using Microsoft.Practices.Unity;
 
     using Moq;
+
+    using Unity.StaticProxyExtension;
 
     using Xunit;
 
@@ -13,12 +17,10 @@
         [Fact]
         public void Instanciating_ShouldNotThrow()
         {
-            using (var kernel = new StandardKernel())
-            {
-                kernel.Bind<IProxy>().ToProxy(x => x.By(Mock.Of<IDynamicInterceptor>()));
+            this.Container.RegisterInterfaceProxy<IProxy>(new Intercept(Mock.Of<IDynamicInterceptor>()));
 
-                kernel.Invoking(x => x.Get<IProxy>()).ShouldNotThrow();
-            }
+            this.Container.Invoking(x => x.Resolve<IProxy>())
+                .ShouldNotThrow();
         }
 
         [Fact]
@@ -27,12 +29,9 @@
             var interceptor = new Mock<IDynamicInterceptor>();
             MethodInfo expectedMethod = Reflector<IProxy>.GetMethod(x => x.Foo());
 
-            using (var kernel = new StandardKernel())
-            {
-                kernel.Bind<IProxy>().ToProxy(x => x.By(interceptor.Object));
+            this.Container.RegisterInterfaceProxy<IProxy>(new Intercept(interceptor.Object));
 
-                kernel.Get<IProxy>().Foo();
-            }
+            this.Container.Resolve<IProxy>().Foo();
 
             interceptor.Verify(x => x.Intercept(It.Is<IInvocation>(invocation => invocation.Method == expectedMethod)));
         }

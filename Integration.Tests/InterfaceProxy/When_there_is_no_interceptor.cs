@@ -2,18 +2,36 @@
 {
     using System;
 
-    public class When_there_is_no_interceptor
+    using FluentAssertions;
+
+    using Microsoft.Practices.Unity;
+
+    using StaticProxy.Interceptor.InterfaceProxy;
+
+    using Unity.StaticProxyExtension;
+
+    using Xunit;
+
+    public class When_there_is_no_interceptor : ContainerTestBase
     {
+        [Fact]
+        public void Registration_MustThrow()
+        {
+            this.Container.Invoking(x => x.RegisterInterfaceProxy<IProxy>())
+                .ShouldThrow<ArgumentOutOfRangeException>();
+        }
+
         [Fact]
         public void Instanciating_MustThrow()
         {
-            using (var kernel = new StandardKernel())
-            {
-                kernel.Bind<IProxy>().ToProxy(x => { });
+            Type interfaceType = typeof(IProxy);
+            Type implementationType = InterfaceProxyHelpers.GetImplementationTypeOfInterface(interfaceType);
 
-                kernel.Invoking(x => x.Get<IProxy>())
-                    .ShouldThrow<InvalidOperationException>();
-            }
+            this.Container.RegisterType(interfaceType, implementationType);
+
+            this.Container.Invoking(x => x.Resolve<IProxy>())
+                .ShouldThrow<ResolutionFailedException>()
+                .WithInnerException<InvalidOperationException>();
         }
     }
 }

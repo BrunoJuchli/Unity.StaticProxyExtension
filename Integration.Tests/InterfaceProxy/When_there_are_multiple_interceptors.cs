@@ -1,24 +1,23 @@
 ﻿namespace Integration.InterfaceProxy
 {
     using System.Collections.Generic;
-
     using FluentAssertions;
-
+    using Microsoft.Practices.Unity;
     using Moq;
+    using Unity.StaticProxyExtension;
+    using Xunit;
 
-    public class When_there_are_multiple_interceptors
+    public class When_there_are_multiple_interceptors : ContainerTestBase
     {
         [Fact]
         public void Instanciating_ShouldNotThrow()
         {
-            using (var kernel = new StandardKernel())
-            {
-                kernel.Bind<IProxy>().ToProxy(x => x
-                    .By(Mock.Of<IDynamicInterceptor>())
-                    .By(Mock.Of<IDynamicInterceptor>()));
+            this.Container.RegisterInterfaceProxy<IProxy>(
+                new Intercept(Mock.Of<IDynamicInterceptor>()),
+                new Intercept(Mock.Of<IDynamicInterceptor>()));
 
-                kernel.Invoking(x => x.Get<IProxy>()).ShouldNotThrow();
-            }
+            this.Container.Invoking(x => x.Resolve<IProxy>())
+                .ShouldNotThrow();
         }
 
         [Fact]
@@ -29,20 +28,15 @@
             var interceptor2 = new TraceInterceptor(interceptionCallLog, "2");
             var interceptor3 = new TraceInterceptor(interceptionCallLog, "3");
 
-            using (var kernel = new StandardKernel())
-            {
-                kernel.Bind<IProxy>().ToProxy(x => x
-                        .By(interceptor1, 10)
-                        .By(interceptor2, 5)
-                        .By(interceptor3, 15));
+            this.Container.RegisterInterfaceProxy<IProxy>(
+                new Intercept(interceptor1),
+                new Intercept(interceptor2),
+                new Intercept(interceptor3));
 
-                var proxy = kernel.Get<IProxy>();
-
-                proxy.Foo();
-            }
+            this.Container.Resolve<IProxy>().Foo();
 
             interceptionCallLog.Should()
-                           .ContainInOrder(interceptor2, interceptor1, interceptor3)
+                           .ContainInOrder(interceptor1, interceptor2, interceptor3)
                            .And.HaveCount(3);
         }
     }
