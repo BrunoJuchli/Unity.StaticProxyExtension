@@ -2,25 +2,25 @@
 <package >
   <metadata minClientVersion="2.8">
     <id>Unity.StaticProxy</id>
-    <!-- <version>$version$</version> currently does not seem to work with PCL assemblies... -->
-    <version>0.1.0</version>
+    <version>$version$</version>
     <title>Unity Static Proxy Extension</title>
     <authors>Bruno Juchli</authors>
     <owners>Bruno Juchli</owners>
     <developmentDependency>false</developmentDependency>
-    <!-- <iconUrl>https://github.com/BrunoJuchli/ninject.extensions.staticproxy/tree/master/Icons/package_icon.png</iconUrl> no icon yet -->
+    <iconUrl>https://github.com/BrunoJuchli/StaticProxy.Fody/blob/master/Icons/package_icon.png</iconUrl>
     <projectUrl>https://github.com/BrunoJuchli/Unity.StaticProxyExtension</projectUrl>
-	<description>Unity extension for using StaticProxy.Fody with unity. This enables proxying on platforms which don't support Dynamic Proxy (like Windows RT, Apple IPhone,...)</description>
-    <copyright>Copyright Bruno Juchli 2014</copyright>
-    <tags>Proxy Interception ILWeaving Fody AOP</tags>
+    <description>Unity extension for using StaticProxy.Fody with unity. This enables proxying on platforms which don't support Dynamic Proxy (like Windows RT, Apple IPhone,...)</description>
+    <copyright>Copyright Bruno Juchli 2016</copyright>
+    <tags>unity Proxy Interception ILWeaving Fody AOP</tags>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Changed PCL to target Profile259 (.net 4.5, ASP.NET Core 1.0, Win 8, Win Phone 8.1, Win Phone Silverlight 8, Xamarin.Android, Xamarin.iOS, Xamarin.iOS (Classic). Updated to Unity 4. Processing pdb with gitlink so that with "Enable source server support" enabled this assembly is source-steppable. Also see https://github.com/GitTools/GitLink/ </releaseNotes>
     <dependencies>
-      <dependency id="Unity" version="3.5"/>
-      <dependency id="StaticProxy.Interceptor" version="0.2.1"/>
-      <dependency id="StaticProxy.Fody" version ="0.2.0"/>
+      <dependency id="Unity" version="4.0"/>
+      <dependency id="StaticProxy.Interceptor" version="0.3.0.79-pre"/>
+      <dependency id="StaticProxy.Fody" version ="0.3.0.87-pre"/>
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\$configuration$\$id$.pdb" target="lib\portable-win+net45+wp80\" /> <!-- todo add +MonoAndroid10+MonoTouch10 -->
+    <file src="bin\$configuration$\$id$.pdb" target="lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\" />
   </files>
 </package>
